@@ -12,7 +12,6 @@ loginRouter.post("/", async (req, res) => {
       profile: true,
     },
   });
-  if (loggedInUser) console.log(loggedInUser.profile?.id);
   return res.status(201).send(loggedInUser);
 });
 
