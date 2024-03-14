@@ -4,7 +4,7 @@ import { prisma } from "../../prisma/db.setup";
 const photosRouter = Router();
 
 photosRouter.get("/", async (req, res) => {
-  const allPhotos = await prisma.photos.findMany();
+  const allPhotos = await prisma.photo.findMany();
   res.status(200).send(allPhotos);
 });
 

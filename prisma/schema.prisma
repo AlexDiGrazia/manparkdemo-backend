@@ -10,36 +10,40 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model users {
+model User {
   id Int @id @default(autoincrement())
   username String @unique
   password String
+  profile Profile?
 }
 
-model profiles {
+model Profile {
   id Int @id @default(autoincrement())
-  user String
+  username String 
   picture String
   bio String
   home String
   occupation String
   birthday DateTime
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId Int @unique
+  @@unique ([userId, id])
 }
 
-model community_posts {
+model CommunityPost {
   id Int @id @default(autoincrement())
   user String
   text String
 }
 
-model schedules {
+model Schedule {
   id Int @id @default(autoincrement())
   user String
   day Int
   event String
 }
 
-model events {
+model Event {
   id Int @id @default(autoincrement())
   user String
   date DateTime
@@ -47,7 +51,7 @@ model events {
   details String
 }
 
-model photos {
+model Photo {
   id Int @id @default(autoincrement())
   image String
   date String

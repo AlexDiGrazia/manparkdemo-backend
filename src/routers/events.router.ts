@@ -4,13 +4,13 @@ import { prisma } from "../../prisma/db.setup";
 const eventsRouter = Router();
 
 eventsRouter.get("/", async (req, res) => {
-  const allEvents = await prisma.events.findMany();
+  const allEvents = await prisma.event.findMany();
   res.status(200).send(allEvents);
 });
 
 eventsRouter.post("/", async (req, res) => {
   const { user, date, title, details } = req.body;
-  const newEvent = await prisma.events.create({
+  const newEvent = await prisma.event.create({
     data: {
       user,
       date,
@@ -25,7 +25,7 @@ eventsRouter.post("/", async (req, res) => {
 eventsRouter.patch("/:id", async (req, res) => {
   const body = req.body;
   const id = +req.params.id;
-  const updatedEventDetails = await prisma.events.update({
+  const updatedEventDetails = await prisma.event.update({
     where: { id },
     data: {
       ...body,
@@ -36,7 +36,7 @@ eventsRouter.patch("/:id", async (req, res) => {
 
 eventsRouter.delete("/:id", async (req, res) => {
   const id = +req.params.id;
-  const deletedEvent = await prisma.events.delete({
+  const deletedEvent = await prisma.event.delete({
     where: { id },
   });
   res.status(200).send(deletedEvent);

@@ -5,14 +5,14 @@ const profileRouter = Router();
 
 //index
 profileRouter.get("/", async (req, res) => {
-  const allProfiles = await prisma.profiles.findMany();
+  const allProfiles = await prisma.profile.findMany();
   return res.status(200).send(allProfiles);
 });
 
 //show
 profileRouter.get("/:id", async (req, res) => {
   const id = +req.params.id;
-  const singleProfile = await prisma.profiles.findUnique({
+  const singleProfile = await prisma.profile.findUnique({
     where: {
       id,
     },
@@ -24,7 +24,7 @@ profileRouter.get("/:id", async (req, res) => {
 profileRouter.patch("/:id", async (req, res) => {
   const id = +req.params.id;
   const body = req.body;
-  const updatedProfile = await prisma.profiles.update({
+  const updatedProfile = await prisma.profile.update({
     where: { id },
     data: {
       ...body,
@@ -36,7 +36,7 @@ profileRouter.patch("/:id", async (req, res) => {
 //create
 profileRouter.post("/", async (req, res) => {
   console.log(req.body);
-  const newProfile = await prisma.profiles.create({
+  const newProfile = await prisma.profile.create({
     data: {
       ...req.body,
     },

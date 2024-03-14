@@ -6,7 +6,7 @@ const loginRouter = Router();
 
 loginRouter.post("/", async (req, res) => {
   const username = req.body.username;
-  const loggedInUser = await prisma.users.findUnique({
+  const loggedInUser = await prisma.user.findUnique({
     where: { username },
   });
   console.log(loggedInUser);

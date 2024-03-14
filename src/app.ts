@@ -1,7 +1,7 @@
 import express, { Request, Response, NextFunction } from "express";
 import cors from "cors";
 import { prisma } from "../prisma/db.setup";
-import { communityPostsRouter } from "./routers/community_posts.router";
+import { communityPostsRouter } from "./routers/communityPost.router";
 import { userRouter } from "./routers/users.router";
 import { profileRouter } from "./routers/profiles.router";
 import { eventsRouter } from "./routers/events.router";
