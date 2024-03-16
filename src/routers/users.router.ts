@@ -21,29 +21,23 @@ userRouter.get("/:id", async (req, res) => {
   return res.status(201).send(uniqueUser);
 });
 
-//login
-// userRouter.post("/login", async (req, res) => {
-//   const username = req.body.username;
-//   console.log(username);
-//   const singleUser = await prisma.user.findUnique({
-//     where: {
-//       username,
-//     },
-//   });
-//   console.log(singleUser);
-
-//   return res.status(200).send(singleUser);
-// });
-
 //create
 userRouter.post("/", async (req, res) => {
-  // console.log(req.body);
+  const username = req.body.username;
+  const password = req.body.password;
+  const profile = req.body.profile;
   const newUser = await prisma.user.create({
     data: {
-      ...req.body,
+      username,
+      password,
+      profile: {
+        create: { ...profile },
+      },
+    },
+    include: {
+      profile: true,
     },
   });
-  console.log(newUser);
   return res.status(200).send(newUser);
 });
 
