@@ -9,7 +9,6 @@ userRouter.get("/", async (req, res) => {
   return res.status(200).send(allUsers);
 });
 
-//TO_DO
 //Show endpoint
 userRouter.get("/:id", async (req, res) => {
   const id = +req.params.id;
