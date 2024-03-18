@@ -34,14 +34,7 @@ profileRouter.patch("/:id", async (req, res) => {
 });
 
 //create
-profileRouter.post("/", async (req, res) => {
-  console.log(req.body);
-  const newProfile = await prisma.profile.create({
-    data: {
-      ...req.body,
-    },
-  });
-  return res.status(200).send(newProfile);
-});
+// Profiles get created in the same call as userRouter.post() as a nested create
+// Also see front-end userAPI createNewUserAndAssociateProfile()
 
 export { profileRouter };
