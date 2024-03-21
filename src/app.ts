@@ -7,7 +7,6 @@ import { profileRouter } from "./routers/profiles.router";
 import { eventsRouter } from "./routers/events.router";
 import { scheduleRouter } from "./routers/schedule.router";
 import { photosRouter } from "./routers/photos.router";
-import { loginRouter } from "./routers/login.router";
 
 const app = express();
 app.use(
@@ -18,7 +17,6 @@ app.use(
 );
 app.use(express.json());
 
-app.use("/login", loginRouter);
 app.use("/users", userRouter);
 app.use("/profiles", profileRouter);
 app.use("/community_posts", communityPostsRouter);
