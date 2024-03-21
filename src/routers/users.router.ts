@@ -3,30 +3,24 @@ import { prisma } from "../../prisma/db.setup";
 
 const userRouter = Router();
 
-//index
-//SCHEDULED FOR DELETION - NOT IN USE
-// userRouter.get("/", async (req, res) => {
-//   const allUsers = await prisma.user.findMany();
-//   return res.status(200).send(allUsers);
-// });
-
-//TO_DO consider moving login endpoint int userRouter
-
-//Show endpoint
-//SCHEDULED FOR DELETION - NOT IN USE.
-//SEE LOGIN ROUTER POST REQUEST TO RETRIEVE USER BY NAME
-// userRouter.get("/:id", async (req, res) => {
-//   const id = +req.params.id;
-//   const uniqueUser = await prisma.user.findUnique({
-//     where: {
-//       id,
-//     },
-//   });
-//   return res.status(201).send(uniqueUser);
-// });
+userRouter.post("/login", async (req, res) => {
+  const username = req.body.username;
+  const loggedInUser = await prisma.user
+    .findUnique({
+      where: { username },
+      include: {
+        profile: true,
+      },
+    })
+    .then((res) => {
+      console.log(res);
+      return res;
+    });
+  return res.status(201).send(loggedInUser);
+});
 
 //create
-//does nested creates to post user AND associated profile
+//does nested creates to POST user AND associated profile
 userRouter.post("/", async (req, res) => {
   const username = req.body.username;
   const password = req.body.password;
