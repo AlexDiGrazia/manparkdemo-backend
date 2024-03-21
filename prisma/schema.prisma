@@ -36,6 +36,7 @@ model CommunityPost {
   text String
 }
 
+//TO_DO  consider changing name to weeklyAppointment or something with 'appointment' in name
 model Schedule {
   id Int @id @default(autoincrement())
   user String

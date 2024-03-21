@@ -10,7 +10,12 @@ import { photosRouter } from "./routers/photos.router";
 import { loginRouter } from "./routers/login.router";
 
 const app = express();
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    methods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS", "PUT"],
+  })
+);
 app.use(express.json());
 
 app.use("/login", loginRouter);
