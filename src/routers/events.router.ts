@@ -22,6 +22,7 @@ eventsRouter.post("/", async (req, res) => {
   res.status(200).send(newEvent);
 });
 
+//TO_DO consider narrowing down to only accept the details of the body
 eventsRouter.patch("/:id", async (req, res) => {
   const body = req.body;
   const id = +req.params.id;
