@@ -15,6 +15,7 @@ scheduleRouter.get("/:user", async (req, res) => {
   res.status(200).send(currentProfileScheduleData);
 });
 
+// Post
 scheduleRouter.post("/", async (req, res) => {
   const day = +req.body.day;
   const newAppointment = await prisma.schedule.create({
@@ -26,6 +27,7 @@ scheduleRouter.post("/", async (req, res) => {
   res.status(200).send(newAppointment);
 });
 
+// Update
 scheduleRouter.patch("/:id", async (req, res) => {
   const id = +req.params.id;
   const event = req.body.event;
