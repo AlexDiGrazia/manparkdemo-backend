@@ -1,7 +1,8 @@
-import { Router } from "express";
+import { Router, Request, Response, NextFunction } from "express";
 import { prisma } from "../../prisma/db.setup";
 import { validateRequest } from "zod-express-middleware";
 import { z } from "zod";
+import { authMiddleware, getDataFromAuthToken } from "../auth-utils";
 
 const communityPostsRouter = Router();
 
@@ -15,16 +16,16 @@ communityPostsRouter.post(
   validateRequest({
     body: z
       .object({
-        user: z.string(),
         text: z.string(),
       })
       .strict(),
   }),
+  authMiddleware,
   async (req, res) => {
-    const { user, text } = req.body;
+    const { text } = req.body;
     const newPost = await prisma.communityPost.create({
       data: {
-        user,
+        user: req.user!.username,
         text,
       },
     });

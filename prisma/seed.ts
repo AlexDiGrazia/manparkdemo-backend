@@ -23,7 +23,7 @@ const seed = async () => {
   await clearDb();
 
   await Promise.all(
-    users_seedData.map(({ username, password }) => {
+    users_seedData.map(async ({ username, password }) => {
       const {
         username: Pusername,
         picture,
@@ -36,7 +36,8 @@ const seed = async () => {
       return prisma.user.create({
         data: {
           username,
-          password,
+          //TO_DO create a migration with passwordHash instead of password
+          password: await encryptPassword(password),
           profile: {
             create: {
               username: Pusername,
@@ -47,7 +48,6 @@ const seed = async () => {
               birthday,
             },
           },
-          // password: await encryptPassword(password),
         },
         include: {
           profile: true,
