@@ -15,7 +15,9 @@ export const encryptPassword = (password: string) => {
 };
 
 export const createUnsecuredUserInformation = (user: TUser) => ({
+  id: user.id,
   username: user.username,
+  profile: user.profile,
 });
 
 export const createTokenForUser = (user: TUser) => {
@@ -27,7 +29,16 @@ export const createTokenForUser = (user: TUser) => {
 
 const jwtInfoSchema = z.object({
   username: z.string(),
+  id: z.number(),
   iat: z.number(),
+  profile: z.object({
+    username: z.string(),
+    picture: z.string(),
+    bio: z.string(),
+    home: z.string(),
+    occupation: z.string(),
+    birthday: z.string().datetime(),
+  }),
 });
 
 export const getDataFromAuthToken = (token?: string) => {
@@ -43,7 +54,7 @@ export const getDataFromAuthToken = (token?: string) => {
 };
 
 export const authMiddleware = async (
-  req: Request,
+  req: Request<{ id: number }>,
   res: Response,
   next: NextFunction
 ) => {
@@ -56,10 +67,11 @@ export const authMiddleware = async (
     where: {
       username: myJwtData.username,
     },
+    include: { profile: true },
   });
 
   if (!userFromJwt) return res.status(401).json({ message: "User not found" });
 
-  (req as any).user = userFromJwt;
+  (req as any).user = createUnsecuredUserInformation(userFromJwt);
   next();
 };
