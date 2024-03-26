@@ -68,6 +68,7 @@ communityPostsRouter.delete(
       id: z.coerce.number(),
     }),
   }),
+  authMiddleware,
   async (req, res) => {
     const id = +req.params.id;
     const deletedPost = await prisma.communityPost.delete({
