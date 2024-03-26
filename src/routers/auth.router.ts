@@ -20,9 +20,8 @@ authRouter.post(
   }),
   async ({ body: { username, password: bodyPassword } }, res) => {
     const user = await prisma.user.findUnique({
-      where: {
-        username,
-      },
+      where: { username },
+      include: { profile: true },
     });
 
     if (!user) return res.status(404).send({ message: "No user found" });
@@ -34,7 +33,6 @@ authRouter.post(
 
     const userInformation = createUnsecuredUserInformation(user);
     const token = createTokenForUser(user);
-    console.log(token);
 
     return res.status(200).send({ token, userInformation });
   }
