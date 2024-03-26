@@ -14,18 +14,13 @@ userRouter.post(
   }),
   async (req, res) => {
     const username = req.body.username;
-    const loggedInUser = await prisma.user
-      .findUnique({
-        where: { username },
-        include: {
-          profile: true,
-        },
-      })
-      //TO_DO when less sleepy remove .then()
-      .then((res) => {
-        console.log(res?.profile);
-        return res;
-      });
+    const loggedInUser = await prisma.user.findUnique({
+      where: { username },
+      include: {
+        profile: true,
+      },
+    });
+
     return res.status(201).send(loggedInUser);
   }
 );
