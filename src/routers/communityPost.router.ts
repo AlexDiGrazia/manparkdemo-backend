@@ -2,7 +2,7 @@ import { Router, Request, Response, NextFunction } from "express";
 import { prisma } from "../../prisma/db.setup";
 import { validateRequest } from "zod-express-middleware";
 import { z } from "zod";
-import { authMiddleware, getDataFromAuthToken } from "../auth-utils";
+import { authMiddleware } from "../auth-utils";
 
 const communityPostsRouter = Router();
 
@@ -45,6 +45,7 @@ communityPostsRouter.patch(
       })
       .strict(),
   }),
+  authMiddleware,
   async (req, res) => {
     const id = +req.params.id;
     const body = req.body;
