@@ -37,8 +37,6 @@ eventsRouter.post(
   }
 );
 
-//TO_DO consider narrowing down to only accept the details of the body
-//NEW TO_DO verify syntax for narrowing down to only details is correct. I was sleepy when I wrote this
 eventsRouter.patch(
   "/:id",
   validateRequest({
@@ -49,8 +47,8 @@ eventsRouter.patch(
       details: z.string(),
     }),
   }),
+  authMiddleware,
   async (req, res) => {
-    const body = req.body;
     const details = req.body.details;
     const id = +req.params.id;
     const updatedEventDetails = await prisma.event.update({
@@ -70,6 +68,7 @@ eventsRouter.delete(
       id: z.coerce.number(),
     }),
   }),
+  authMiddleware,
   async (req, res) => {
     const id = +req.params.id;
     const deletedEvent = await prisma.event.delete({
