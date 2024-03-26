@@ -2,6 +2,7 @@ import { Router } from "express";
 import { prisma } from "../../prisma/db.setup";
 import { validateRequest } from "zod-express-middleware";
 import { z } from "zod";
+import { authMiddleware } from "../auth-utils";
 
 const eventsRouter = Router();
 
@@ -14,14 +15,15 @@ eventsRouter.post(
   "/",
   validateRequest({
     body: z.object({
-      user: z.string(),
       date: z.string().datetime(),
       title: z.string(),
       details: z.string(),
     }),
   }),
+  authMiddleware,
   async (req, res) => {
-    const { user, date, title, details } = req.body;
+    const { date, title, details } = req.body;
+    const user = req.user!.username;
     const newEvent = await prisma.event.create({
       data: {
         user,
