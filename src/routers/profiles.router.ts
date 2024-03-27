@@ -2,6 +2,7 @@ import { Router, Request, Response, NextFunction } from "express";
 import { prisma } from "../../prisma/db.setup";
 import { validateRequest } from "zod-express-middleware";
 import { z } from "zod";
+import { authMiddleware } from "../auth-utils";
 
 const profileRouter = Router();
 
@@ -39,7 +40,6 @@ profileRouter.patch(
     }),
     body: z
       .object({
-        // TO_DO verify future proofing by including picture doesn't break anything
         picture: z.string(),
         bio: z.string(),
         home: z.string(),
@@ -48,6 +48,7 @@ profileRouter.patch(
       })
       .partial(),
   }),
+  authMiddleware,
   async (req, res) => {
     const id = +req.params.id;
     const body = req.body;
