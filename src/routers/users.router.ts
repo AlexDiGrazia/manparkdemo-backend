@@ -2,12 +2,17 @@ import { Router } from "express";
 import { prisma } from "../../prisma/db.setup";
 import { validateRequest } from "zod-express-middleware";
 import { z } from "zod";
-import { authMiddleware } from "../auth-utils";
+import {
+  authMiddleware,
+  createTokenForUser,
+  createUnsecuredUserInformation,
+  encryptPassword,
+} from "../auth-utils";
 
 const userRouter = Router();
 
 userRouter.post(
-  "/login",
+  "/retrieve_by_name",
   validateRequest({
     body: z.object({
       username: z.string(),
@@ -30,7 +35,7 @@ userRouter.post(
 //create
 //does nested creates to POST user AND associated profile
 userRouter.post(
-  "/",
+  "/sign-up",
   validateRequest({
     body: z.object({
       username: z.string(),
@@ -47,7 +52,7 @@ userRouter.post(
   }),
   async (req, res) => {
     const username = req.body.username;
-    const password = req.body.password;
+    const password = await encryptPassword(req.body.password);
     const profile = req.body.profile;
     const newUser = await prisma.user.create({
       data: {
@@ -62,7 +67,10 @@ userRouter.post(
       },
     });
 
-    return res.status(200).send(newUser);
+    const userInformation = createUnsecuredUserInformation(newUser);
+    const token = createTokenForUser(newUser);
+
+    return res.status(200).send({ token, userInformation });
   }
 );
 
