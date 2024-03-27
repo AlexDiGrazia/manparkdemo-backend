@@ -3,6 +3,7 @@ import { prisma } from "../../prisma/db.setup";
 import { resolve } from "path";
 import { validateRequest } from "zod-express-middleware";
 import { z } from "zod";
+import { authMiddleware } from "../auth-utils";
 
 const scheduleRouter = Router();
 
@@ -30,16 +31,18 @@ scheduleRouter.post(
   "/",
   validateRequest({
     body: z.object({
-      user: z.string(),
       day: z.number(),
       event: z.string(),
     }),
   }),
+  authMiddleware,
   async (req, res) => {
     const day = +req.body.day;
+    const user = req.user!.username;
     const newAppointment = await prisma.schedule.create({
       data: {
         ...req.body,
+        user,
         day,
       },
     });
@@ -58,6 +61,7 @@ scheduleRouter.patch(
       event: z.string(),
     }),
   }),
+  authMiddleware,
   async (req, res) => {
     const id = +req.params.id;
     const event = req.body.event;
@@ -81,6 +85,7 @@ scheduleRouter.post(
       deletionQueue: z.array(z.number()),
     }),
   }),
+  authMiddleware,
   async (req, res) => {
     const deletionQueue = req.body.deletionQueue;
     const deletedAppointments = await prisma.schedule.deleteMany({
