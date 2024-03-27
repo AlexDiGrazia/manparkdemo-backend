@@ -2,6 +2,7 @@ import { Router } from "express";
 import { prisma } from "../../prisma/db.setup";
 import { validateRequest } from "zod-express-middleware";
 import { z } from "zod";
+import { authMiddleware } from "../auth-utils";
 
 const userRouter = Router();
 
@@ -12,6 +13,7 @@ userRouter.post(
       username: z.string(),
     }),
   }),
+  authMiddleware,
   async (req, res) => {
     const username = req.body.username;
     const loggedInUser = await prisma.user.findUnique({
