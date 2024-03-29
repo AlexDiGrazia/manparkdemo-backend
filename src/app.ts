@@ -8,6 +8,13 @@ import { scheduleRouter } from "./routers/schedule.router";
 import { photosRouter } from "./routers/photos.router";
 import { authRouter } from "./routers/auth.router";
 import { TUser } from "./types";
+import { v2 as cloudinary } from "cloudinary";
+
+// cloudinary.config({
+//   cloud_name: process.env.CLOUDINARY_CLOUD,
+//   api_key: process.env.CLOUDINARY_API_KEY,
+//   api_secret: process.env.CLOUDINARY_API_SECRET,
+// });
 
 const app = express();
 
@@ -22,6 +29,9 @@ declare global {
       SUPABASE_API_KEY: string;
       DATABASE_URL: string;
       JWT_SECRET: string;
+      // CLOUDINARY_CLOUD: string;
+      // CLOUDINARY_API_KEY: string;
+      // CLOUDINARY_API_SECRET: string;
     }
   }
 }
