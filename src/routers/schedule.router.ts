@@ -44,6 +44,7 @@ scheduleRouter.post(
         ...req.body,
         user,
         day,
+        profileId: req.user!.profile!.id,
       },
     });
     res.status(200).send(newAppointment);
