@@ -27,6 +27,7 @@ communityPostsRouter.post(
       data: {
         user: req.user!.username,
         text,
+        authorId: req.user!.id,
       },
     });
     res.status(200).send(newPost);
