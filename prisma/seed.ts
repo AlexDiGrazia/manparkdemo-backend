@@ -11,12 +11,11 @@ import {
 
 const clearDb = async () => {
   await prisma.user.deleteMany();
-  // await prisma.profile.deleteMany();
   await prisma.communityPost.deleteMany();
   await prisma.schedule.deleteMany();
   await prisma.event.deleteMany();
   await prisma.photo.deleteMany();
-  console.log("finished");
+  console.log("old tables deleted");
 };
 
 const seed = async () => {
@@ -46,50 +45,33 @@ const seed = async () => {
               home,
               occupation,
               birthday,
+              schedules: {
+                create: schedules_seedData.filter(
+                  (obj) => obj.user === username
+                ),
+              },
             },
+          },
+          communityPosts: {
+            create: communityPosts_seedData.filter(
+              (obj) => obj.user === username
+            ),
+          },
+          events: {
+            create: events_seedData.filter((obj) => obj.user === username),
           },
         },
         include: {
-          profile: true,
+          profile: {
+            include: {
+              schedules: true,
+            },
+          },
+          communityPosts: true,
+          events: true,
         },
       });
     })
-  );
-
-  await Promise.all(
-    communityPosts_seedData.map((post) =>
-      prisma.communityPost.create({
-        data: {
-          text: post.text,
-          user: post.user,
-        },
-      })
-    )
-  );
-
-  await Promise.all(
-    schedules_seedData.map(({ user, day, event }) =>
-      prisma.schedule.create({
-        data: {
-          user,
-          day,
-          event,
-        },
-      })
-    )
-  );
-
-  await Promise.all(
-    events_seedData.map(({ user, date, title, details }) =>
-      prisma.event.create({
-        data: {
-          user,
-          date,
-          title,
-          details,
-        },
-      })
-    )
   );
 
   await Promise.all(
@@ -103,7 +85,7 @@ const seed = async () => {
     )
   );
 
-  console.log("seeded");
+  console.log("new data seeded");
 };
 
 seed();
