@@ -30,6 +30,7 @@ eventsRouter.post(
         date,
         title,
         details,
+        authorId: req.user!.id,
       },
     });
 
