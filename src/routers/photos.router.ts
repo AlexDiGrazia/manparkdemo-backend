@@ -11,19 +11,6 @@ photosRouter.get("/", async (req, res) => {
   res.status(200).send(allPhotos);
 });
 
-// photosRouter.post("/upload", async (req, res) => {
-//   console.log("end point connected");
-//   cloudinary.uploader.upload(
-//     "https://m.media-amazon.com/images/I/51hIdMnn1mS._AC_.jpg",
-//     { public_id: "cactus", folder: "Man Park Gallary" },
-
-//     function (error, result) {
-//       console.log(result);
-//       res.status(200).send(result);
-//     }
-//   );
-// });
-
 photosRouter.post(
   "/upload",
   validateRequest({
