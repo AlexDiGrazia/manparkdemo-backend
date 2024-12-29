@@ -6,7 +6,7 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgres"
   url      = env("DATABASE_URL")
 }
 
@@ -31,7 +31,6 @@ model Profile {
   userId Int @unique
   @@unique ([userId, id])
   schedules Schedule[]
-
 }
 
 model CommunityPost {

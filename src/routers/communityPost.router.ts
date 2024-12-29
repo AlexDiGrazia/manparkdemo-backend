@@ -3,10 +3,11 @@ import { prisma } from "../../prisma/db.setup";
 import { validateRequest } from "zod-express-middleware";
 import { z } from "zod";
 import { authMiddleware } from "../auth-utils";
+import { limiter } from "../rate-limiter";
 
 const communityPostsRouter = Router();
 
-communityPostsRouter.get("/", async (req, res) => {
+communityPostsRouter.get("/", limiter, async (req, res) => {
   const communityPosts = await prisma.communityPost.findMany();
   return res.status(200).send(communityPosts);
 });
