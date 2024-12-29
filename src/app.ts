@@ -9,6 +9,9 @@ import { photosRouter } from "./routers/photos.router";
 import { authRouter } from "./routers/auth.router";
 import { TUser } from "./types";
 import { v2 as cloudinary } from "cloudinary";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD,
@@ -43,7 +46,7 @@ declare global {
 
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: process.env.ORIGIN,
     methods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS", "PUT"],
   })
 );
@@ -60,3 +63,5 @@ app.use("/photos", photosRouter);
 app.listen(3000, () => {
   console.log("server is running");
 });
+
+console.log("test");
