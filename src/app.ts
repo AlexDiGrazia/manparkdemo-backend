@@ -52,6 +52,10 @@ app.use(
 );
 app.use(express.json());
 
+app.get("/", async (req, res) => {
+  return res.status(200).send("wow dude, nice!");
+});
+
 app.use(authRouter);
 app.use("/users", userRouter);
 app.use("/profiles", profileRouter);
