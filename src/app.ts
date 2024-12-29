@@ -44,18 +44,20 @@ declare global {
     throw new Error(`Missing environment variable ${key}`);
 });
 
-// app.use(
-//   cors({
-//     origin: process.env.ORIGIN,
-//     methods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS", "PUT"],
-//   })
-// );
+app.use(
+  cors({
+    origin: process.env.ORIGIN,
+    methods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS", "PUT"],
+  })
+);
+
+app.options("*", cors());
 
 app.set("trust proxy", 1 /* number of proxies between user and server */);
 
 app.get("/ip", (request, response) => response.send(request.ip));
 
-app.use(cors());
+// app.use(cors());
 app.use(express.json());
 
 app.get("/", async (req, res) => {
