@@ -44,12 +44,13 @@ declare global {
     throw new Error(`Missing environment variable ${key}`);
 });
 
-app.use(
-  cors({
-    origin: process.env.ORIGIN,
-    methods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS", "PUT"],
-  })
-);
+// app.use(
+//   cors({
+//     origin: process.env.ORIGIN,
+//     methods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS", "PUT"],
+//   })
+// );
+app.use(cors());
 app.use(express.json());
 
 app.get("/", async (req, res) => {
