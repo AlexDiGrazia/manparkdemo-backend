@@ -75,5 +75,3 @@ app.use("/photos", photosRouter);
 app.listen(3000, () => {
   console.log("server is running");
 });
-
-console.log("test");
